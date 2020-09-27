@@ -10,19 +10,11 @@ library(readxl)
 
 ## Problem1
 
-Read Mt Trash Data set.
+Read Mr Trash Data set, 
 
 ```{r}
 trashwheel_df =
-  readxlsx(".data/Trash-Wheel-Collection-Totals-8-6-16.xlsx", 
-           sheet = "Mr. Trash Wheel", 
-           range= cell_cols("A:N")) %>%
-  janitor:: clean_names() %>%
-  drop_na(dumpster) %>%
-  mutate(
-    sport_balls = round(sports_balls), 
-    sports_balls = as.integer(sports_balls)
-  )
+  read_xlsx ("./data/Trash_data.xlsx")
+trashwheel_df
 ```
-
 
