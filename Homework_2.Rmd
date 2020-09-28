@@ -13,18 +13,16 @@ library(readxl)
 Read Mr Trash Data set, 
 
 ```{r}
-trashwheel_df
+
 trashwheel_df =
-  read_xlsx ("./data/Trash_data.xlsx")
-,
-## FIX tomorrow
-%>%
+  read_xlsx ("./data/Trash_data.xlsx",
            sheet = "Mr. Trash Wheel", 
            range= cell_cols("A:N")) %>%
-  janitor:: clean_names(trashwheel_df) %>%
+  janitor:: clean_names() %>%
   drop_na(dumpster) %>%
   mutate(sport_balls = round(sports_balls), 
     sports_balls = as.integer(sports_balls)
   )
+trashwheel_df
 ```
 
