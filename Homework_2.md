@@ -5,14 +5,14 @@ Homework 2
 library(tidyverse)
 ```
 
-    ## ── Attaching packages ───────────────────────── tidyverse 1.3.0 ──
+    ## ── Attaching packages ────────────────── tidyverse 1.3.0 ──
 
     ## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
     ## ✓ tibble  3.0.3     ✓ dplyr   1.0.2
     ## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
     ## ✓ readr   1.3.1     ✓ forcats 0.5.0
 
-    ## ── Conflicts ──────────────────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ───────────────────── tidyverse_conflicts() ──
     ## x dplyr::filter() masks stats::filter()
     ## x dplyr::lag()    masks stats::lag()
 
@@ -54,3 +54,63 @@ trashwheel_df
     ## #   polystyrene <dbl>, cigarette_butts <dbl>, glass_bottles <dbl>,
     ## #   grocery_bags <dbl>, chip_bags <dbl>, sports_balls <int>,
     ## #   homes_powered <dbl>, sport_balls <dbl>
+
+Read and clean Precipitation data
+
+``` r
+precip_2018=
+   read_xlsx ("./data/Trash_data.xlsx",
+              sheet = "2018 Precipitation", 
+              skip = 1
+              ) %>%
+  janitor::clean_names() %>%
+  drop_na(month) %>%
+  mutate(year=2018) %>%
+  relocate(year)
+  precip_2018
+```
+
+    ## # A tibble: 12 x 3
+    ##     year month total
+    ##    <dbl> <dbl> <dbl>
+    ##  1  2018     1  0.94
+    ##  2  2018     2  4.8 
+    ##  3  2018     3  2.69
+    ##  4  2018     4  4.69
+    ##  5  2018     5  9.27
+    ##  6  2018     6  4.77
+    ##  7  2018     7 10.2 
+    ##  8  2018     8  6.45
+    ##  9  2018     9 10.5 
+    ## 10  2018    10  2.12
+    ## 11  2018    11  7.82
+    ## 12  2018    12  6.11
+
+``` r
+  precip_2017=
+   read_xlsx ("./data/Trash_data.xlsx",
+              sheet = "2017 Precipitation",
+              skip = 1
+              ) %>%
+  janitor::clean_names() %>%
+  drop_na(month) %>%
+  mutate(year=2017) %>%
+  relocate(year)
+  precip_2017
+```
+
+    ## # A tibble: 12 x 3
+    ##     year month total
+    ##    <dbl> <dbl> <dbl>
+    ##  1  2017     1  2.34
+    ##  2  2017     2  1.46
+    ##  3  2017     3  3.57
+    ##  4  2017     4  3.99
+    ##  5  2017     5  5.64
+    ##  6  2017     6  1.4 
+    ##  7  2017     7  7.09
+    ##  8  2017     8  4.44
+    ##  9  2017     9  1.95
+    ## 10  2017    10  0   
+    ## 11  2017    11  0.11
+    ## 12  2017    12  0.94

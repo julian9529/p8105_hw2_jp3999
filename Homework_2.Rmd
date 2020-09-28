@@ -26,3 +26,30 @@ trashwheel_df =
 trashwheel_df
 ```
 
+Read and clean Precipitation data
+
+```{r}
+precip_2018=
+   read_xlsx ("./data/Trash_data.xlsx",
+              sheet = "2018 Precipitation", 
+              skip = 1
+              ) %>%
+  janitor::clean_names() %>%
+  drop_na(month) %>%
+  mutate(year=2018) %>%
+  relocate(year)
+  precip_2018
+  
+  
+  precip_2017=
+   read_xlsx ("./data/Trash_data.xlsx",
+              sheet = "2017 Precipitation",
+              skip = 1
+              ) %>%
+  janitor::clean_names() %>%
+  drop_na(month) %>%
+  mutate(year=2017) %>%
+  relocate(year)
+  precip_2017
+```
+
