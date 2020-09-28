@@ -5,14 +5,14 @@ Homework 2
 library(tidyverse)
 ```
 
-    ## ── Attaching packages ────────────────── tidyverse 1.3.0 ──
+    ## ── Attaching packages ────────────────────── tidyverse 1.3.0 ──
 
     ## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
     ## ✓ tibble  3.0.3     ✓ dplyr   1.0.2
     ## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
     ## ✓ readr   1.3.1     ✓ forcats 0.5.0
 
-    ## ── Conflicts ───────────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ───────────────────────── tidyverse_conflicts() ──
     ## x dplyr::filter() masks stats::filter()
     ## x dplyr::lag()    masks stats::lag()
 
@@ -55,7 +55,7 @@ trashwheel_df
     ## #   grocery_bags <dbl>, chip_bags <dbl>, sports_balls <int>,
     ## #   homes_powered <dbl>, sport_balls <dbl>
 
-Read and clean Precipitation data
+Read and clean Precipitation data 2017 2018
 
 ``` r
 precip_2018=
@@ -114,3 +114,78 @@ precip_2018=
     ## 10  2017    10  0   
     ## 11  2017    11  0.11
     ## 12  2017    12  0.94
+
+Combine datasets on annual precipitation
+
+``` r
+precip_df= 
+  bind_rows(precip_2018, precip_2017) 
+
+month_df = 
+  tibble(
+    month=1:12, 
+    month_name =month.name
+  )
+month_df
+```
+
+    ## # A tibble: 12 x 2
+    ##    month month_name
+    ##    <int> <chr>     
+    ##  1     1 January   
+    ##  2     2 February  
+    ##  3     3 March     
+    ##  4     4 April     
+    ##  5     5 May       
+    ##  6     6 June      
+    ##  7     7 July      
+    ##  8     8 August    
+    ##  9     9 September 
+    ## 10    10 October   
+    ## 11    11 November  
+    ## 12    12 December
+
+``` r
+precip_df
+```
+
+    ## # A tibble: 24 x 3
+    ##     year month total
+    ##    <dbl> <dbl> <dbl>
+    ##  1  2018     1  0.94
+    ##  2  2018     2  4.8 
+    ##  3  2018     3  2.69
+    ##  4  2018     4  4.69
+    ##  5  2018     5  9.27
+    ##  6  2018     6  4.77
+    ##  7  2018     7 10.2 
+    ##  8  2018     8  6.45
+    ##  9  2018     9 10.5 
+    ## 10  2018    10  2.12
+    ## # … with 14 more rows
+
+``` r
+left_join(precip_df, month_df, by="month")
+```
+
+    ## # A tibble: 24 x 4
+    ##     year month total month_name
+    ##    <dbl> <dbl> <dbl> <chr>     
+    ##  1  2018     1  0.94 January   
+    ##  2  2018     2  4.8  February  
+    ##  3  2018     3  2.69 March     
+    ##  4  2018     4  4.69 April     
+    ##  5  2018     5  9.27 May       
+    ##  6  2018     6  4.77 June      
+    ##  7  2018     7 10.2  July      
+    ##  8  2018     8  6.45 August    
+    ##  9  2018     9 10.5  September 
+    ## 10  2018    10  2.12 October   
+    ## # … with 14 more rows
+
+The dataset information is from the Mr.Trashwheel collector in
+Baltimore, Maryland. As trash enters the inner harbor, the trashwheel
+collects that trash, and stores it in a dumpster. the dataset contains
+information on year, month, and trash collected, include some specific
+kinds of trash. There are a total of 344 rows in our final dataset.
+Additional data sheets include month precipitation data.

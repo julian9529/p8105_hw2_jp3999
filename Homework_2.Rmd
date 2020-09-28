@@ -26,7 +26,7 @@ trashwheel_df =
 trashwheel_df
 ```
 
-Read and clean Precipitation data
+Read and clean Precipitation data 2017 2018
 
 ```{r}
 precip_2018=
@@ -52,4 +52,24 @@ precip_2018=
   relocate(year)
   precip_2017
 ```
+
+Combine datasets on annual precipitation
+
+```{r}
+precip_df= 
+  bind_rows(precip_2018, precip_2017) 
+
+month_df = 
+  tibble(
+    month=1:12, 
+    month_name =month.name
+  )
+month_df
+
+precip_df
+
+left_join(precip_df, month_df, by="month")
+```
+
+The dataset information is from the Mr.Trashwheel collector in Baltimore, Maryland. As trash enters the inner harbor, the trashwheel collects that trash, and stores it in a dumpster. the dataset contains information on year, month, and trash collected, include some specific kinds of trash. There are a total of `r nrow(trashwheel_df)` rows in our final dataset. Additional data sheets include month precipitation data. 
 
