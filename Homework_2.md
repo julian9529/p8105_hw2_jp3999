@@ -26,32 +26,31 @@ Read Mr Trash Data set,
 
 ``` r
 trashwheel_df =
-  read_xlsx ("./data/Trash_data.xlsx")
-```
-
-    ## New names:
-    ## * `` -> ...15
-    ## * `` -> ...16
-    ## * `` -> ...17
-
-``` r
+  read_xlsx ("./data/Trash_data.xlsx",
+           sheet = "Mr. Trash Wheel", 
+           range= cell_cols("A:N")) %>%
+  janitor:: clean_names() %>%
+  drop_na(dumpster) %>%
+  mutate(sport_balls = round(sports_balls), 
+    sports_balls = as.integer(sports_balls)
+  )
 trashwheel_df
 ```
 
-    ## # A tibble: 406 x 17
-    ##    Dumpster Month  Year Date                `Weight (tons)` `Volume (cubic …
-    ##       <dbl> <chr> <dbl> <dttm>                        <dbl>            <dbl>
-    ##  1        1 May    2014 2014-05-16 00:00:00            4.31               18
-    ##  2        2 May    2014 2014-05-16 00:00:00            2.74               13
-    ##  3        3 May    2014 2014-05-16 00:00:00            3.45               15
-    ##  4        4 May    2014 2014-05-17 00:00:00            3.1                15
-    ##  5        5 May    2014 2014-05-17 00:00:00            4.06               18
-    ##  6        6 May    2014 2014-05-20 00:00:00            2.71               13
-    ##  7        7 May    2014 2014-05-21 00:00:00            1.91                8
-    ##  8        8 May    2014 2014-05-28 00:00:00            3.7                16
-    ##  9       NA May …    NA NA                            26.0               116
-    ## 10        9 June   2014 2014-06-05 00:00:00            2.52               14
-    ## # … with 396 more rows, and 11 more variables: `Plastic Bottles` <dbl>,
-    ## #   Polystyrene <dbl>, `Cigarette Butts` <dbl>, `Glass Bottles` <dbl>, `Grocery
-    ## #   Bags` <dbl>, `Chip Bags` <dbl>, `Sports Balls` <dbl>, `Homes
-    ## #   Powered*` <dbl>, ...15 <chr>, ...16 <lgl>, ...17 <lgl>
+    ## # A tibble: 344 x 15
+    ##    dumpster month  year date                weight_tons volume_cubic_ya…
+    ##       <dbl> <chr> <dbl> <dttm>                    <dbl>            <dbl>
+    ##  1        1 May    2014 2014-05-16 00:00:00        4.31               18
+    ##  2        2 May    2014 2014-05-16 00:00:00        2.74               13
+    ##  3        3 May    2014 2014-05-16 00:00:00        3.45               15
+    ##  4        4 May    2014 2014-05-17 00:00:00        3.1                15
+    ##  5        5 May    2014 2014-05-17 00:00:00        4.06               18
+    ##  6        6 May    2014 2014-05-20 00:00:00        2.71               13
+    ##  7        7 May    2014 2014-05-21 00:00:00        1.91                8
+    ##  8        8 May    2014 2014-05-28 00:00:00        3.7                16
+    ##  9        9 June   2014 2014-06-05 00:00:00        2.52               14
+    ## 10       10 June   2014 2014-06-11 00:00:00        3.76               18
+    ## # … with 334 more rows, and 9 more variables: plastic_bottles <dbl>,
+    ## #   polystyrene <dbl>, cigarette_butts <dbl>, glass_bottles <dbl>,
+    ## #   grocery_bags <dbl>, chip_bags <dbl>, sports_balls <int>,
+    ## #   homes_powered <dbl>, sport_balls <dbl>
