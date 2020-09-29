@@ -189,3 +189,5 @@ collects that trash, and stores it in a dumpster. the dataset contains
 information on year, month, and trash collected, include some specific
 kinds of trash. There are a total of 344 rows in our final dataset.
 Additional data sheets include month precipitation data.
+
+## Problem 2
