@@ -190,6 +190,8 @@ information on year, month, and trash collected, include some specific
 kinds of trash. There are a total of 344 rows in our final dataset.
 Additional data sheets include month precipitation data.
 
+## Problem 2
+
 ``` r
 transit_df = 
   read_csv("./data2/NYC_Transit.csv") %>%
@@ -235,3 +237,15 @@ mutate(entry = recode(entry, "YES" ="TRUE", "NO" = "FALSE"))
     ## # … with 1,858 more rows, and 12 more variables: route4 <chr>, route5 <chr>,
     ## #   route6 <chr>, route7 <chr>, route8 <dbl>, route9 <dbl>, route10 <dbl>,
     ## #   route11 <dbl>, entry <chr>, vending <chr>, entrance_type <chr>, ada <lgl>
+
+The dataset contains information from the transit system in NYC. The
+variables line, station\_name, station\_latitude, station\_longitude,
+route1, route2, route3, route4, route5, route6, route7, route8, route9,
+route10, route11, entry, vending, entrance\_type, ada. In order to clean
+the data I used the Janitor function to turn the variable names into
+snakecase I then selected for our variables of interest in order to
+eliminate unwanted clutter variables. The dataset is 1868 rows and 19
+columns.
+
+There are 465 stations and 84 are ADA compliant. The proportion of
+station entrances / exits without vending allow entrance is 0.4343434

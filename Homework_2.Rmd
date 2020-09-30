@@ -73,6 +73,8 @@ left_join(precip_df, month_df, by="month")
 
 The dataset information is from the Mr.Trashwheel collector in Baltimore, Maryland. As trash enters the inner harbor, the trashwheel collects that trash, and stores it in a dumpster. the dataset contains information on year, month, and trash collected, include some specific kinds of trash. There are a total of `r nrow(trashwheel_df)` rows in our final dataset. Additional data sheets include month precipitation data. 
 
+## Problem 2
+
 ```{r}
 transit_df = 
   read_csv("./data2/NYC_Transit.csv") %>%
@@ -82,3 +84,15 @@ mutate(entry = recode(entry, "YES" ="TRUE", "NO" = "FALSE"))
   transit_df
   
 ```
+
+The dataset contains information from the transit system in NYC. The variables `r variable.names(transit_df)`. In order to clean the data I used the Janitor function to turn the variable names into snakecase I then selected for our variables of interest in order to eliminate unwanted clutter variables. The dataset is `r nrow(transit_df)` rows and `r ncol(transit_df)` columns. 
+
+There are `r select(distinct(transit_df, line, station_name))%>%
+count()` stations and `r filter(transit_df, ada == "TRUE") %>%
+distinct(line, station_name)%>%
+  count()` are ADA compliant. The proportion of station entrances / exits without vending allow entrance is `r   filter(transit_df, vending == "NO" & entry == "TRUE") %>%
+  distinct(line, station_name)%>%
+  count() /
+     filter(transit_df, vending == "NO") %>%
+    distinct(line, station_name)%>%
+  count() ` 
