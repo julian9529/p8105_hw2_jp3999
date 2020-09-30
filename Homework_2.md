@@ -5,14 +5,14 @@ Homework 2
 library(tidyverse)
 ```
 
-    ## ── Attaching packages ────────────────────── tidyverse 1.3.0 ──
+    ## ── Attaching packages ──────────────────────────────── tidyverse 1.3.0 ──
 
     ## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
     ## ✓ tibble  3.0.3     ✓ dplyr   1.0.2
     ## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
     ## ✓ readr   1.3.1     ✓ forcats 0.5.0
 
-    ## ── Conflicts ───────────────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ─────────────────────────────────── tidyverse_conflicts() ──
     ## x dplyr::filter() masks stats::filter()
     ## x dplyr::lag()    masks stats::lag()
 
@@ -190,4 +190,48 @@ information on year, month, and trash collected, include some specific
 kinds of trash. There are a total of 344 rows in our final dataset.
 Additional data sheets include month precipitation data.
 
-## Problem 2
+``` r
+transit_df = 
+  read_csv("./data2/NYC_Transit.csv") %>%
+  janitor::clean_names() %>%
+  select(line,station_name, station_latitude, station_longitude, route1, route2, route3, route4, route5, route6, route7, route8, route9, route10, route11, entry, vending, entrance_type, ada )  %>%
+mutate(entry = recode(entry, "YES" ="TRUE", "NO" = "FALSE"))
+```
+
+    ## Parsed with column specification:
+    ## cols(
+    ##   .default = col_character(),
+    ##   `Station Latitude` = col_double(),
+    ##   `Station Longitude` = col_double(),
+    ##   Route8 = col_double(),
+    ##   Route9 = col_double(),
+    ##   Route10 = col_double(),
+    ##   Route11 = col_double(),
+    ##   ADA = col_logical(),
+    ##   `Free Crossover` = col_logical(),
+    ##   `Entrance Latitude` = col_double(),
+    ##   `Entrance Longitude` = col_double()
+    ## )
+
+    ## See spec(...) for full column specifications.
+
+``` r
+  transit_df
+```
+
+    ## # A tibble: 1,868 x 19
+    ##    line  station_name station_latitude station_longitu… route1 route2 route3
+    ##    <chr> <chr>                   <dbl>            <dbl> <chr>  <chr>  <chr> 
+    ##  1 4 Av… 25th St                  40.7            -74.0 R      <NA>   <NA>  
+    ##  2 4 Av… 25th St                  40.7            -74.0 R      <NA>   <NA>  
+    ##  3 4 Av… 36th St                  40.7            -74.0 N      R      <NA>  
+    ##  4 4 Av… 36th St                  40.7            -74.0 N      R      <NA>  
+    ##  5 4 Av… 36th St                  40.7            -74.0 N      R      <NA>  
+    ##  6 4 Av… 45th St                  40.6            -74.0 R      <NA>   <NA>  
+    ##  7 4 Av… 45th St                  40.6            -74.0 R      <NA>   <NA>  
+    ##  8 4 Av… 45th St                  40.6            -74.0 R      <NA>   <NA>  
+    ##  9 4 Av… 45th St                  40.6            -74.0 R      <NA>   <NA>  
+    ## 10 4 Av… 53rd St                  40.6            -74.0 R      <NA>   <NA>  
+    ## # … with 1,858 more rows, and 12 more variables: route4 <chr>, route5 <chr>,
+    ## #   route6 <chr>, route7 <chr>, route8 <dbl>, route9 <dbl>, route10 <dbl>,
+    ## #   route11 <dbl>, entry <chr>, vending <chr>, entrance_type <chr>, ada <lgl>

@@ -73,6 +73,8 @@ left_join(precip_df, month_df, by="month")
 
 The dataset information is from the Mr.Trashwheel collector in Baltimore, Maryland. As trash enters the inner harbor, the trashwheel collects that trash, and stores it in a dumpster. the dataset contains information on year, month, and trash collected, include some specific kinds of trash. There are a total of `r nrow(trashwheel_df)` rows in our final dataset. Additional data sheets include month precipitation data. 
 
+## Problem 2
+
 ```{r}
 transit_df = 
   read_csv("./data2/NYC_Transit.csv") %>%
@@ -82,3 +84,73 @@ mutate(entry = recode(entry, "YES" ="TRUE", "NO" = "FALSE"))
   transit_df
   
 ```
+
+##P about variables, row, ncol. Not tidy, describe
+
+The dataset contains information from the transit system in NYC. The variables `r variable.names(transit_df)`. In order to clean the data I 
+
+```{r}
+
+select(distinct(transit_df, line, station_name))%>%
+count() 
+
+filter(transit_df, ada == "TRUE") %>%
+distinct(line, station_name)%>%
+  count()
+
+##Inline
+
+  filter(transit_df, vending == "NO" & entry == "TRUE") %>%
+  distinct(line, station_name)%>%
+  count() /
+     filter(transit_df, vending == "NO") %>%
+    distinct(line, station_name)%>%
+  count() 
+    
+
+
+```
+
+
+```{r}
+transit_tidy_df = 
+  transit_df %>%
+  mutate_at(vars(route8:route11), as.character) %>%
+  pivot_longer(
+      route1:route11, 
+      names_to = "route", 
+      values_to = "route_name"
+      ) %>%
+  drop_na(route)
+
+filter(transit_df,route_name == "A") %>%
+  distinct(line, station_name) %>%
+ count()
+
+filter(transit_df, ada == "TRUE") %>%
+distinct(line, station_name == "A")%>%
+  count()
+
+transit_tidy_df
+
+
+```
+
+## Problem 3
+
+```{r}
+pols_df = 
+  read_csv("./data/pols-month.csv") %>%
+  janitor::clean_names() %>%
+  separate (mon, into = c("year", "month", "day")) %>%
+mutate(month = month.name[as.factor(month)]) %>%
+mutate(president = case_when(prez_dem == 1 ~ "dem", prez_gop ==1 ~ "gop")) %>%
+select(-day, -prez_dem, -prez_gop)
+pols_df
+```
+
+```{r}
+unemployment_df = 
+  read_csv(/.data/un)
+```
+
