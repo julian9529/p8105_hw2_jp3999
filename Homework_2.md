@@ -249,3 +249,60 @@ columns.
 
 There are 465 stations and 84 are ADA compliant. The proportion of
 station entrances / exits without vending allow entrance is 0.4343434
+
+``` r
+transit_tidy_df = 
+  transit_df %>%
+  mutate_at(vars(route8:route11), as.character) %>%
+  pivot_longer(
+      route1:route11, 
+      names_to = "route", 
+      values_to = "route_name"
+      ) %>%
+  drop_na(route)
+
+filter(transit_tidy_df,route_name == "A") %>%
+  distinct(line, station_name) %>%
+ count()
+```
+
+    ## # A tibble: 1 x 1
+    ##       n
+    ##   <int>
+    ## 1    60
+
+``` r
+filter(transit_tidy_df, ada == "TRUE" & route_name == "A" ) %>%
+  distinct(line, station_name) %>%
+  count()
+```
+
+    ## # A tibble: 1 x 1
+    ##       n
+    ##   <int>
+    ## 1    17
+
+``` r
+transit_tidy_df
+```
+
+    ## # A tibble: 20,548 x 10
+    ##    line  station_name station_latitude station_longitu… entry vending
+    ##    <chr> <chr>                   <dbl>            <dbl> <chr> <chr>  
+    ##  1 4 Av… 25th St                  40.7            -74.0 TRUE  YES    
+    ##  2 4 Av… 25th St                  40.7            -74.0 TRUE  YES    
+    ##  3 4 Av… 25th St                  40.7            -74.0 TRUE  YES    
+    ##  4 4 Av… 25th St                  40.7            -74.0 TRUE  YES    
+    ##  5 4 Av… 25th St                  40.7            -74.0 TRUE  YES    
+    ##  6 4 Av… 25th St                  40.7            -74.0 TRUE  YES    
+    ##  7 4 Av… 25th St                  40.7            -74.0 TRUE  YES    
+    ##  8 4 Av… 25th St                  40.7            -74.0 TRUE  YES    
+    ##  9 4 Av… 25th St                  40.7            -74.0 TRUE  YES    
+    ## 10 4 Av… 25th St                  40.7            -74.0 TRUE  YES    
+    ## # … with 20,538 more rows, and 4 more variables: entrance_type <chr>,
+    ## #   ada <lgl>, route <chr>, route_name <chr>
+
+There are 60 distinct stations that serve the A train. 17 of the
+stations that serve the A train are ADA compliant.
+
+of the stations that

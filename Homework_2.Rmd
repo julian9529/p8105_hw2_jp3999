@@ -96,3 +96,32 @@ distinct(line, station_name)%>%
      filter(transit_df, vending == "NO") %>%
     distinct(line, station_name)%>%
   count() ` 
+  
+```{r}
+transit_tidy_df = 
+  transit_df %>%
+  mutate_at(vars(route8:route11), as.character) %>%
+  pivot_longer(
+      route1:route11, 
+      names_to = "route", 
+      values_to = "route_name"
+      ) %>%
+  drop_na(route)
+
+filter(transit_tidy_df,route_name == "A") %>%
+  distinct(line, station_name) %>%
+ count()
+
+filter(transit_tidy_df, ada == "TRUE" & route_name == "A" ) %>%
+  distinct(line, station_name) %>%
+  count()
+
+transit_tidy_df
+
+```
+  
+There are `r filter(transit_tidy_df,route_name == "A") %>%
+  distinct(line, station_name) %>% count()` distinct stations that serve the A train. 
+`r filter(transit_tidy_df, ada == "TRUE" & route_name == "A" ) %>% distinct(line, station_name) %>% count()` of the stations that serve the A train are ADA compliant. 
+ 
+of the stations that 
