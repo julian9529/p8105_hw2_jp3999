@@ -135,3 +135,27 @@ mutate(president = case_when(prez_dem == 1 ~ "dem", prez_gop ==1 ~ "gop")) %>%
 select(-day, -prez_dem, -prez_gop)
 ```
 
+Arrange function sorts it from lowest to highest and relocate function brings variable to front of df 
+
+```{r}
+snp_df = 
+  read_csv("./data/snp.csv") %>%
+   janitor::clean_names() %>%
+  separate (date, into = c("month", "day", "year")) %>%
+  arrange(year)  %>%
+  arrange(month)  %>%
+  relocate (year, month)
+```
+
+```{r}
+unemployment_df = 
+  read.csv("./data/unemployment.csv") %>%
+  janitor::clean_names() %>%
+  pivot_longer(
+    jan:dec,
+     names_to = "month", 
+      values_to = "unemployment"
+      ) 
+  
+```
+

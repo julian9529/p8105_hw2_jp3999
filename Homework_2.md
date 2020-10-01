@@ -305,4 +305,55 @@ transit_tidy_df
 There are 60 distinct stations that serve the A train. 17 of the
 stations that serve the A train are ADA compliant.
 
-of the stations that
+``` r
+pols_df = 
+  read_csv("./data/pols-month.csv") %>%
+  janitor::clean_names() %>%
+  separate (mon, into = c("year", "month", "day")) %>%
+mutate(month = month.name[as.factor(month)]) %>%
+mutate(president = case_when(prez_dem == 1 ~ "dem", prez_gop ==1 ~ "gop")) %>%
+select(-day, -prez_dem, -prez_gop)
+```
+
+    ## Parsed with column specification:
+    ## cols(
+    ##   mon = col_date(format = ""),
+    ##   prez_gop = col_double(),
+    ##   gov_gop = col_double(),
+    ##   sen_gop = col_double(),
+    ##   rep_gop = col_double(),
+    ##   prez_dem = col_double(),
+    ##   gov_dem = col_double(),
+    ##   sen_dem = col_double(),
+    ##   rep_dem = col_double()
+    ## )
+
+Arrange function sorts it from lowest to highest and relocate function
+brings variable to front of df
+
+``` r
+snp_df = 
+  read_csv("./data/snp.csv") %>%
+   janitor::clean_names() %>%
+  separate (date, into = c("month", "day", "year")) %>%
+  arrange(year)  %>%
+  arrange(month)  %>%
+  relocate (year, month)
+```
+
+    ## Parsed with column specification:
+    ## cols(
+    ##   date = col_character(),
+    ##   close = col_double()
+    ## )
+
+``` r
+unemployment_df = 
+  read.csv("./data/unemployment.csv") %>%
+  janitor::clean_names() %>%
+  pivot_longer(
+    jan:dec,
+     names_to = "month", 
+      values_to = "unemployment"
+      ) 
+```
