@@ -245,7 +245,8 @@ route10, route11, entry, vending, entrance\_type, ada. In order to clean
 the data I used the Janitor function to turn the variable names into
 snakecase I then selected for our variables of interest in order to
 eliminate unwanted clutter variables. The dataset is 1868 rows and 19
-columns.
+columns. The data does not seem tidy given the routes seperate variables
+and the names are not in snake case.
 
 There are 465 stations and 84 are ADA compliant. The proportion of
 station entrances / exits without vending allow entrance is 0.4343434
@@ -311,6 +312,7 @@ pols_df =
   janitor::clean_names() %>%
   separate (mon, into = c("year", "month", "day")) %>%
 mutate(month = month.name[as.factor(month)]) %>%
+mutate(year = as.numeric(year)) %>%
 mutate(president = case_when(prez_dem == 1 ~ "dem", prez_gop ==1 ~ "gop")) %>%
 select(-day, -prez_dem, -prez_gop)
 ```
@@ -336,6 +338,7 @@ snp_df =
   read_csv("./data/snp.csv") %>%
    janitor::clean_names() %>%
   separate (date, into = c("month", "day", "year")) %>%
+  mutate(year = as.numeric(year)) %>%
   arrange(year)  %>%
   arrange(month)  %>%
   relocate (year, month)
@@ -351,9 +354,59 @@ snp_df =
 unemployment_df = 
   read.csv("./data/unemployment.csv") %>%
   janitor::clean_names() %>%
+  mutate(year = as.numeric(year)) %>%
   pivot_longer(
     jan:dec,
      names_to = "month", 
       values_to = "unemployment"
       ) 
 ```
+
+Merge the datasets
+
+``` r
+afinal_df = left_join(pols_df, snp_df, by = c("year", "month"))
+final_df = left_join(afinal_df, unemployment_df, by = c("year", "month"))
+final_df
+```
+
+    ## # A tibble: 822 x 12
+    ##     year month gov_gop sen_gop rep_gop gov_dem sen_dem rep_dem president day  
+    ##    <dbl> <chr>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl> <chr>     <chr>
+    ##  1  1947 Janu…      23      51     253      23      45     198 dem       <NA> 
+    ##  2  1947 Febr…      23      51     253      23      45     198 dem       <NA> 
+    ##  3  1947 March      23      51     253      23      45     198 dem       <NA> 
+    ##  4  1947 April      23      51     253      23      45     198 dem       <NA> 
+    ##  5  1947 May        23      51     253      23      45     198 dem       <NA> 
+    ##  6  1947 June       23      51     253      23      45     198 dem       <NA> 
+    ##  7  1947 July       23      51     253      23      45     198 dem       <NA> 
+    ##  8  1947 Augu…      23      51     253      23      45     198 dem       <NA> 
+    ##  9  1947 Sept…      23      51     253      23      45     198 dem       <NA> 
+    ## 10  1947 Octo…      23      51     253      23      45     198 dem       <NA> 
+    ## # … with 812 more rows, and 2 more variables: close <dbl>, unemployment <dbl>
+
+``` r
+summarize(final_df, min(year))
+```
+
+    ## # A tibble: 1 x 1
+    ##   `min(year)`
+    ##         <dbl>
+    ## 1        1947
+
+``` r
+summarize(final_df, max(year))
+```
+
+    ## # A tibble: 1 x 1
+    ##   `max(year)`
+    ##         <dbl>
+    ## 1        2015
+
+The dataset contains information related to the number of national
+politicians who are democratic or republican at any given time,
+unemployment, & Standard & Poor’s stock market index. The variables
+contained are year, month, gov\_gop, sen\_gop, rep\_gop, gov\_dem,
+sen\_dem, rep\_dem, president, day, close, unemployment.The dataset is
+822 rows and 12 columns. The range of years in the data set is 1947 and
+2015
